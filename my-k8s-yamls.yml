@@ -1,0 +1,226 @@
+# Create a namespace
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: mynamespace
+
+---
+# Create a pod
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mypod
+  labels:
+    app: mypodapp
+spec:
+  containers:
+    - name: mynginx
+      image: nginx:1.26.0
+
+---
+# Create a ReplicaSet
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: myreplica
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: myapp
+  template:
+    metadata:
+      labels:
+        app: myapp
+        ver: another
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:1.26.0
+
+---
+# Create a Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mydeployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: mydeploy
+  template:
+    metadata:
+      labels:
+        app: mydeploy
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:1.26.0
+
+---
+# Create a Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysvc
+spec:
+  type: ClusterIP
+  selector:
+    app: mydeploy
+  ports:
+  - port: 80
+    targetPort: 80
+
+---
+# Config map keys based example
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-map-keys
+data:
+  MY_ENV: PROD
+  MY_USERNAME: TEST
+  MY_PWD: TEST
+
+---
+# Config map file based example
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-map-file
+data:
+  my_file.yml: |
+    name: Teja
+    phone: 3423423
+    favs:
+      - Watching
+      - Swimming
+      - Scrolling
+---
+# Pod using configmap to set env values
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mypod-cm
+  labels:
+    app: myapp
+spec:
+  containers:
+    - name: mynginx
+      image: nginx:1.26.0
+      volumeMounts:
+        - name: myvol
+          mountPath: /app/config
+      env:
+        - name: MY_INLINE
+          value: TEJA
+      envFrom:
+        - configMapRef:
+            name: config-map-keys
+  volumes:
+    - name: myvol
+      configMap:
+        name: config-map-file
+
+---
+# Secret example (stringData)
+apiVersion: v1
+kind: Secret
+metadata:
+  name: sec-string-data
+type: Opaque
+stringData:
+  MY_ENV: PROD
+
+---
+# Secret example (base64 data)
+apiVersion: v1
+kind: Secret
+metadata:
+  name: sec-base64-data
+type: Opaque
+data:
+  MY_PWD: VEVTVA==
+
+---
+# Pod using Secret to set env values
+apiVersion: v1
+kind: Pod
+metadata:
+  name: secret-pod
+spec:
+  containers:
+    - name: nginx
+      image: nginx:1.26.0
+      volumeMounts:
+        - name: myvol
+          mountPath: /etc/config
+      env:
+        - name: ENV_VAR_FROM_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: sec-string-data
+              key: MY_ENV
+  volumes:
+    - name: myvol
+      secret:
+        secretName: sec-base64-data
+
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mypv
+  labels:
+    app: mypvapp
+spec:
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 100Mi
+  local:
+    path: /teja/pv
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - node01
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mypvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Mi
+  selector:
+    matchLabels:
+      app: mypvapp
+  storageClassName: "local-path"
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pvcpod
+spec:
+  containers:
+    - name: nginx
+      image: nginx:1.26.0
+      volumeMounts:
+        - name: storage
+          mountPath: /teja/pv
+  volumes:
+    - name: storage
+      persistentVolumeClaim:
+        claimName: mypvc

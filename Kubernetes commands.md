@@ -60,5 +60,46 @@ metadata:
 - `kubectl delete -f xx.yaml` to delete the resource inside the yaml file
 
 
-### Pods
+
+### Kubernetes Services
+
+- Namespace
+- Pod
+- Replicaset
+- Deployment
+- Service
+- Job
+- CronJob
+- DaemonSet
+- StatefulSet
+- ConfigMap
+- SecretMap
+- Ingress
+- GatewayAPI
+- PersistentVolume
+- PersistentVolumeClaim
+- 
+
+
+## Kubectl commands for pods and deployment
+
+### Util Commands
+
+- Create a temporary container and sh into it
+	- `kubectl run curl-pod -it --rm --image=curlimages/curl --command -- sh`
+- Show some extra info about the pod
+	- `kubectl get pod mypod -o wide`
+- Get the yaml cofig stored in the etcd, used for debuggin what volumes are moutned which evns are injected etc
+	- `kubectl get pod mypod -o yaml`
+	- You can also use the above command for any resource type e.g. kubectl get deployment or k get service etc.
+- To print it in json format
+	- `kubectl get pod mypod -o json`
+- To find the specific elements in json
+	- `kubectl get pod mypod -o jsonpath='{.status}'`
+- Use this for reading info about pod like pod status etc mainly events etc
+	- `kubectl describe pod mypod `
+- To login to a pod
+	- `kubectl exec -it podname -- bash`
+- To directly execute command inside a pod
+	- `kubectl exec mypod -c nginx -- printenv`
 
