@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: sts-about
+spec:
+  serviceName: sts-about-headless
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sts-about
+  template:
+    metadata:
+      labels:
+        app: sts-about
+    spec:
+      initContainers:
+        - name: populate-default-html
+          image: nginx:1.26.0
+          command:
+            - bash
+            - "-c"
+            - |
+              echo "<h1>Hello from ABOUT page</h1>" >  /usr/share/nginx/html/index.html
+          volumeMounts:
+            - name: data
+              mountPath: /usr/share/nginx/html
+      containers:
+        - name: nginx
+          image: nginx:1.26.0
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: data
+              mountPath: /usr/share/nginx/html
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: "standard"
+        resources:
+          requests:
+            storage: 100Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sts-about-headless # headless
+spec:
+  type: ClusterIP
+  clusterIP: None
+  selector:
+    app: sts-about
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sts-about # singular since it points to a single cluster IP
+spec:
+  type: ClusterIP
+  selector:
+    app: sts-about
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
