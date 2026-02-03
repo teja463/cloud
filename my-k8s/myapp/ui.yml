@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client-react-nginx
+  namespace: demo-app
+  labels:
+    app: client-react-nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: client-react-nginx
+  template:
+    metadata:
+      labels:
+        app: client-react-nginx
+    spec:
+      containers:
+        - image: teja463/docker-react-app-k8s:latest
+          name: client-react-nginx
+          ports:
+            - containerPort: 80
+              protocol: TCP
+      #     volumeMounts:
+      #       - mountPath: /etc/nginx/conf.d
+      #         name: nginx-conf
+      # volumes:
+      #   - configMap:
+      #       defaultMode: 420
+      #       name: nginx-conf
+      #     name: nginx-conf
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: client-react-nginx
+  namespace: demo-app
+spec:
+  selector:
+    app: client-react-nginx
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80

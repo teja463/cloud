@@ -1,0 +1,18 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: api-java
+  namespace: demo-app
+spec:
+  entryPoints:
+    - web
+  routes:
+    - kind: Rule
+      match: Host(`kubernetes-course.devopsdirective.com`) && PathPrefix(`/api/hello`)
+      middlewares:
+        - name: strip-api-prefixes
+      services:
+        - kind: Service
+          name: api-java
+          port: 8080
+          scheme: http
