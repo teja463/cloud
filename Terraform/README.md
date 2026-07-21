@@ -1,5 +1,7 @@
 # Terraform
+
 > [Course URL](https://www.youtube.com/watch?v=7xngnjfIlK4&pp=ygUTc2lkIHBhbGFzIHRlcnJhZm9ybQ%3D%3D)
+
 ## Setup
 
 - Install terraform using winget
