@@ -42,3 +42,8 @@
 - `helm get values wp` to verify the customized values
 - `helm history wp` to check the history of the helm release
 - `helm rollback wp 1` rollback to revision 1
+
+## Installing myappchart
+
+- Created a sample chart based on the k8s myapp folder
+- `helm install mapp ./myappchart` to install the helm chart
