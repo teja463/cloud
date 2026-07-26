@@ -43,7 +43,11 @@
 - `helm history wp` to check the history of the helm release
 - `helm rollback wp 1` rollback to revision 1
 
-## Installing myappchart
+## Publishing the chart
 
-- Created a sample chart based on the k8s myapp folder
-- `helm install mapp ./myappchart` to install the helm chart
+- First package the chart `helm package ./myappchart` it will create the `.tgz` file of the chart
+- `helm registry login registry-1.docker.io -u your-user-id`. We are using docker to publish our helm chart
+- Create a Personal Access token in docker and use that as password for the next step
+- `helm push myappchart-1.0.0.tgz oci://registry-1.docker.io/teja463`, now the chart is published to `registry-1.docker.io/teja463/myappchart:1.0.0`
+- To install the published chart use `helm install myapp-docker oci://registry-1.docker.io/teja463/myappchart:1.0.0`
+- To install the chart from local tgz file `helm install mapp ./myappchart-1.0.0.tgz`
