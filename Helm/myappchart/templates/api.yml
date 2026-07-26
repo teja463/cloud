@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: api-java
-          image: teja463/docker-java-postgres:env
+          image: teja463/docker-java-postgres:1.0.0
           env:
             - name: DB_URL
               value: "jdbc:postgresql://postgres-postgresql.postgres.svc.cluster.local:5432/mydb"
