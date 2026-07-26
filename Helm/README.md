@@ -51,3 +51,10 @@
 - `helm push myappchart-1.0.0.tgz oci://registry-1.docker.io/teja463`, now the chart is published to `registry-1.docker.io/teja463/myappchart:1.0.0`
 - To install the published chart use `helm install myapp-docker oci://registry-1.docker.io/teja463/myappchart:1.0.0`
 - To install the chart from local tgz file `helm install mapp ./myappchart-1.0.0.tgz`
+
+## MyChart versions
+
+|Version|Description|Chart Location
+|---|---|---|
+|1.0.0|Uses the image tags 1.0.0 which has only one end point /hello, it just displays the no of records in db|oci://registry-1.docker.io/teja463/myappchart:1.0.0|
+|2.0.0|Has the todo app along with hello app|oci://registry-1.docker.io/teja463/myappchart:2.0.0|
