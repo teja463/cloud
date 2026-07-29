@@ -9,7 +9,7 @@ spec:
     - kind: Rule
       match: Host(`{{ .Values.global.hostname }}`) && PathPrefix(`/api`)
       middlewares:
-        - name: strip-api-prefixes
+        - name: {{ .Release.Name }}-middleware
       services:
         - kind: Service
           name: {{ .Release.Name }}-{{ .Chart.Name }}
