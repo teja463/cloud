@@ -7,7 +7,7 @@ spec:
     - web
   routes:
     - kind: Rule
-      match: Host(`kubernetes-course.devopsdirective.com`)
+      match: Host(`{{ .Values.global.hostname }}`)
       services:
         - kind: Service
           name: client-react-nginx

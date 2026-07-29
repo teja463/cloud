@@ -7,7 +7,7 @@ spec:
     - web
   routes:
     - kind: Rule
-      match: Host(`kubernetes-course.devopsdirective.com`) && PathPrefix(`/api`)
+      match: Host(`{{ .Values.global.hostname }}`) && PathPrefix(`/api`)
       middlewares:
         - name: strip-api-prefixes
       services:

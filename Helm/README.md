@@ -63,4 +63,12 @@
 
 ## Advanced
 
-- 
+### Helm manifest
+
+- Helm stores all the chart manifests in the form of secrets, these are stored in the same namespace the chart is installed
+- To see them do `kubectl get secrets` you should see some secrets with sh.helm.release....
+- To see the content of the screts do `k get secret secret-name -o jsonpath="{.data.release}" | base64 -d | base64 -d | gunzip | json_pp
+- Short command is `helm get manifest release-name`
+
+
+### Three way merge
