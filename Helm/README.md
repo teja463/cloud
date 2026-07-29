@@ -72,3 +72,7 @@
 
 
 ### Three way merge
+
+### [Functions and Pipelines](https://helm.sh/docs/chart_template_guide/functions_and_pipelines/)
+
+- Piping functions `{{ .Values.password | b64enc | quote }}`

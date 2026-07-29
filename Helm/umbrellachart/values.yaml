@@ -1,0 +1,4 @@
+name: "Parent Chart"
+password: TestPassword
+subchart1:
+  address: "overridden from parent"
