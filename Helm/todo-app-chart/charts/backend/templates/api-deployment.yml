@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: api-java
-  namespace: demo-app
   labels:
     app: api-java
 spec:
@@ -20,7 +19,7 @@ spec:
           image: teja463/todo-app-backend:1.0.0
           env:
             - name: DB_URL
-              value: "jdbc:postgresql://postgres-postgresql.postgres.svc.cluster.local:5432/mydb"
+              value: "jdbc:postgresql://postgres-postgresql.{{ .Release.Namespace }}.svc.cluster.local:5432/mydb"
             - name: DB_USER
               value: "postgres"
             - name: DB_PWD
