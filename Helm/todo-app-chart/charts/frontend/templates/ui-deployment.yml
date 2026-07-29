@@ -15,7 +15,7 @@ spec:
         app: client-react-nginx
     spec:
       containers:
-        - image: teja463/todo-app-frontend:1.0.0
+        - image: {{ .Values.imagepath }}:{{ .Values.image_version }}
           name: client-react-nginx
           ports:
             - containerPort: 80

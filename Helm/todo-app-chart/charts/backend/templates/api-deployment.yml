@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: api-java
-          image: teja463/todo-app-backend:1.0.0
+          image: {{ .Values.imagepath }}:{{ .Values.image_version }}
           env:
             - name: DB_URL
               value: "jdbc:postgresql://postgres-postgresql.{{ .Release.Namespace }}.svc.cluster.local:5432/mydb"
