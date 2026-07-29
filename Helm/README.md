@@ -8,8 +8,9 @@
 ## Searching Repo
 
 - `helm search hub mysql` it will search in the artifacthub
-- `helm search hub mysq --list-repo-url` to see the url of the helm chart
+- `helm search hub mysql --list-repo-url` to see the url of the helm chart
 - `helm search repo mysql` it will search in the local repos
+- `helm search repo traefik/traefik --versions` to see all the versions of the chart
 
 ## Installing charts
 
@@ -58,3 +59,8 @@
 |---|---|---|
 |1.0.0|Uses the image tags 1.0.0 which has only one end point /hello, it just displays the no of records in db|oci://registry-1.docker.io/teja463/myappchart:1.0.0|
 |2.0.0|Has the todo app along with hello app|oci://registry-1.docker.io/teja463/myappchart:2.0.0|
+
+
+## Advanced
+
+- 
