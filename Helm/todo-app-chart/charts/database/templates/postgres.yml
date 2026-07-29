@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: postgres-postgresql
+  name: {{ .Release.Name }}-{{ .Chart.Name }}
 spec:
-  serviceName: postgres-postgresql
+  serviceName: {{ .Release.Name }}-{{ .Chart.Name }}
   replicas: 1
   selector:
     matchLabels:
-      app: postgres
+      app: {{ .Release.Name }}-{{ .Chart.Name }}
   template:
     metadata:
       labels:
-        app: postgres
+        app: {{ .Release.Name }}-{{ .Chart.Name }}
     spec:
       containers:
-      - name: postgres
+      - name: {{ .Release.Name }}-{{ .Chart.Name }}
         image: postgres:16
         imagePullPolicy: IfNotPresent
         env:

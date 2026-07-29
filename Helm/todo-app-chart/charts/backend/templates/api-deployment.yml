@@ -19,7 +19,7 @@ spec:
           image: {{ .Values.imagepath }}:{{ .Values.image_version }}
           env:
             - name: DB_URL
-              value: "jdbc:postgresql://postgres-postgresql.{{ .Release.Namespace }}.svc.cluster.local:5432/mydb"
+              value: "jdbc:postgresql://{{ .Release.Name }}-database.{{ .Release.Namespace }}.svc.cluster.local:5432/mydb"
             - name: DB_USER
               value: "postgres"
             - name: DB_PWD
