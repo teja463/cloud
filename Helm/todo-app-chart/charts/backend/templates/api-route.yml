@@ -1,7 +1,7 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: api-java
+  name: {{ .Release.Name }}-{{ .Chart.Name }}
 spec:
   entryPoints:
     - web
@@ -12,6 +12,6 @@ spec:
         - name: strip-api-prefixes
       services:
         - kind: Service
-          name: api-java
+          name: {{ .Release.Name }}-{{ .Chart.Name }}
           port: 8080
           scheme: http

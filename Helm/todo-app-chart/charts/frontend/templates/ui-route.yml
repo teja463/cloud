@@ -1,7 +1,7 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: client-react-nginx
+  name: {{ .Release.Name }}-{{ .Chart.Name }}
 spec:
   entryPoints:
     - web
@@ -10,6 +10,6 @@ spec:
       match: Host(`{{ .Values.global.hostname }}`)
       services:
         - kind: Service
-          name: client-react-nginx
+          name: {{ .Release.Name }}-{{ .Chart.Name }}
           port: 80
           scheme: http

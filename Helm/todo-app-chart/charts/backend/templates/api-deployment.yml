@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: api-java
+  name: {{ .Release.Name }}-{{ .Chart.Name }}
   labels:
-    app: api-java
+    app: {{ .Release.Name }}-{{ .Chart.Name }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: api-java
+      app: {{ .Release.Name }}-{{ .Chart.Name }}
   template:
     metadata:
       labels:
-        app: api-java
+        app: {{ .Release.Name }}-{{ .Chart.Name }}
     spec:
       containers:
-        - name: api-java
+        - name: {{ .Release.Name }}-{{ .Chart.Name }}
           image: {{ .Values.imagepath }}:{{ .Values.image_version }}
           env:
             - name: DB_URL

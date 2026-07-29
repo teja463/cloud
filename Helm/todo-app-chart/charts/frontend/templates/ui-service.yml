@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: client-react-nginx
+  name: {{ .Release.Name }}-{{ .Chart.Name }}
 spec:
   selector:
-    app: client-react-nginx
+    app: {{ .Release.Name }}-{{ .Chart.Name }}
   ports:
     - protocol: TCP
       port: 80

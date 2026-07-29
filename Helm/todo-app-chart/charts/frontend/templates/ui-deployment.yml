@@ -1,30 +1,30 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: client-react-nginx
+  name: {{ .Release.Name }}-{{ .Chart.Name }}
   labels:
-    app: client-react-nginx
+    app: {{ .Release.Name }}-{{ .Chart.Name }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: client-react-nginx
+      app: {{ .Release.Name }}-{{ .Chart.Name }}
   template:
     metadata:
       labels:
-        app: client-react-nginx
+        app: {{ .Release.Name }}-{{ .Chart.Name }}
     spec:
       containers:
         - image: {{ .Values.imagepath }}:{{ .Values.image_version }}
-          name: client-react-nginx
+          name: {{ .Release.Name }}-{{ .Chart.Name }}
           ports:
             - containerPort: 80
               protocol: TCP
           volumeMounts:
             - mountPath: /etc/nginx/conf.d
-              name: nginx-conf
+              name: {{ .Release.Name }}-{{ .Chart.Name }}-conf
       volumes:
         - configMap:
             defaultMode: 420
-            name: nginx-conf
-          name: nginx-conf
+            name: {{ .Release.Name }}-{{ .Chart.Name }}-conf
+          name: {{ .Release.Name }}-{{ .Chart.Name }}-conf
