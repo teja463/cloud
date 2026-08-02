@@ -1,5 +1,5 @@
 global:
-  hostname: testteja.com
+  hostname: todoapp.com
   Database:
     SCHEMA: mydb
     DB_USER: postgres
