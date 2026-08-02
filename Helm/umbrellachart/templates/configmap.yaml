@@ -4,3 +4,25 @@ metadata:
   name: {{ .Release.Name }}-{{ .Chart.Name }}-configmap
 data:
   name: {{ .Values.name }}
+{{- $chartName := .Chart.Name -}}
+{{- with .Values.favorite }}  
+  drink: {{ .drink }}
+  food: {{ .food }}
+  chartname: {{ $chartName | quote }}
+{{- end }}
+{{ indent 2 .Values.indent_demo }}
+{{- if eq .Values.favorite.drink "coffee"}}
+  coffee_type: "Espresso"
+{{- end }}
+  toppings:
+  {{- range .Values.pizzaToppings }}
+    - {{ . | title | quote }}
+  {{- end }}
+  toppings_map:
+  {{- range $index, $value := .Values.pizzaToppings }}
+    {{ $index }}: {{ $value }}
+  {{- end }}
+  favourites:
+  {{- range $index, $value := .Values.favorite }}
+    {{ $index }}: {{ $value }}
+  {{- end }}

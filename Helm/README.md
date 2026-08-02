@@ -75,4 +75,9 @@
 
 ### [Functions and Pipelines](https://helm.sh/docs/chart_template_guide/functions_and_pipelines/)
 
-- Piping functions `{{ .Values.password | b64enc | quote }}`
+- Piping functions  `{{ .Values.password | b64enc | quote }}`
+- Using with `{{- with .Values.address }}` `-` is used to remove the leading blank lines
+- Indent `{{ indent 2 .Values.city}}`
+- Logical Operators **eq, ne, lt, gt, or, and, not, empty**.
+  - The logical operators here functions not operators
+  
