@@ -60,6 +60,7 @@
 |---|---|---|
 |1.0.0|Uses the image tags 1.0.0 which has only one end point /hello, it just displays the no of records in db|oci://registry-1.docker.io/teja463/myappchart:1.0.0|
 |2.0.0|Has the todo app along with hello app|oci://registry-1.docker.io/teja463/myappchart:2.0.0|
+|0.1.0|Todo App Chart|oci://registry-1.docker.io/teja463/todo-app-chart:0.1.0|
 
 
 ## Advanced
