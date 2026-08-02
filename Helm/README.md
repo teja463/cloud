@@ -13,6 +13,16 @@
 - `helm search repo mysql` it will search in the local repos
 - `helm search repo traefik/traefik --versions` to see all the versions of the chart
 
+## Usefull Chart commands
+
+- `helm template ./todo-app-chart` to preview the yaml files with values from Values.yaml
+- `helm install todo111 ./todo-app-chart --dry-run=client --debug` validate templates on client side
+- `helm install todo111 ./todo-app-chart --dry-run=server --debug` validate templates on server side
+- `helm fetch oci://registry-1.docker.io/teja463/todo-app-chart:0.1.0` to pull the helm .tgz file
+- `helm inspect readme traefik/traefik` to see and inspect any files in the helm chart, you can also inspect values, charts etc
+- `helm show values ./todo-app-chart` to see all the availalbe values for customization
+- `helm get values release-name` to see the user defined values in the helm release
+
 ## Installing charts
 
 - `helm install your-release-name chartname` e.g `helm install mynginx bitnami/nginx`
