@@ -4,6 +4,7 @@
 
 - Main hub for helm is <https://artifacthub.io/>
 - You can also add repos e.g `helm repo add bitnami https://repo.broadcom.com/bitnami-files`
+- `helm repo update` to update the repos with latest data from the repositories
 
 ## Searching Repo
 
@@ -80,4 +81,18 @@
 - Indent `{{ indent 2 .Values.city}}`
 - Logical Operators **eq, ne, lt, gt, or, and, not, empty**.
   - The logical operators here functions not operators
+
+### Umbrella Charts
+
+### Publishing Charts to Local Repo
+
+- `helm repo index .` it creates the index.yaml file which has all the chart info
+- Make sure you have some chart.tgz file inside the directory, so that the index.yaml has some content
+- Now you can use library like `chartmuseum` to host your local repos, you can also use Nginx or Apache for this
+
+### Adding Dependency Charts
+
+- `helm dependency list guestbook` to list dependencies of the chart
+- `helm dependency update guestbook` to download the dependencies
+- `helm dependency build ./todo-app-chart` to generate the `Chart.lock` file with fixed versions
   

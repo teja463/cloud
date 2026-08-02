@@ -1,2 +1,6 @@
 global:
   hostname: testteja.com
+  Database:
+    SCHEMA: mydb
+    DB_USER: postgres
+    DB_PWD: postgres

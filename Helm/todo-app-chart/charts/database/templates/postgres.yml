@@ -19,11 +19,11 @@ spec:
         imagePullPolicy: IfNotPresent
         env:
         - name: POSTGRES_USER
-          value: postgres
+          value: {{ .Values.global.Database.DB_USER | quote }}
         - name: POSTGRES_PASSWORD
-          value: postgres
+          value: {{ .Values.global.Database.DB_PWD | quote }}
         - name: POSTGRES_DB
-          value: mydb
+          value: {{ .Values.global.Database.SCHEMA }}
         - name: PGDATA
           value: /var/lib/postgresql/data/pgdata
         ports:
