@@ -1,0 +1,54 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Release.Name }}-{{ .Chart.Name }}-health-check
+  labels:
+    app: {{ .Release.Name }}-{{ .Chart.Name }}-health-check
+  annotations:
+    "helm.sh/hook": post-install,post-upgrade
+    "helm.sh/hook-weight": "0"
+    # "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+spec:
+  backoffLimit: 5
+  activeDeadlineSeconds: 120
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-{{ .Chart.Name }}-health-check
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: db-health-check
+        image: postgres:16
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: PGPASSWORD
+          value: {{ .Values.global.Database.DB_PWD | quote }}
+        - name: PGHOST
+          value: {{ .Release.Name }}-{{ .Chart.Name }}
+        - name: PGPORT
+          value: "5432"
+        - name: PGUSER
+          value: {{ .Values.global.Database.DB_USER | quote }}
+        - name: PGDATABASE
+          value: {{ .Values.global.Database.SCHEMA | quote }}
+        command:
+        - /bin/sh
+        - -c
+        - |
+          echo "Waiting for PostgreSQL service at ${PGHOST}:${PGPORT}..."
+          until pg_isready -h "$PGHOST" -p "$PGPORT" -U "$PGUSER"; do
+            echo "Database not ready yet, retrying in 3 seconds..."
+            sleep 3
+          done
+
+          echo "Database accept connections. Running test query..."
+          psql -h "$PGHOST" -p "$PGPORT" -U "$PGUSER" -d "$PGDATABASE" -c "SELECT 1;"
+
+          if [ $? -eq 0 ]; then
+            echo "PostgreSQL check succeeded!"
+            exit 0
+          else
+            echo "PostgreSQL query failed!"
+            exit 1
+          fi
