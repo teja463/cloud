@@ -1,10 +1,12 @@
 # Ansible
 
+> We are using the ubuntu `teja463/ubuntu-ssh` and rhel `teja463/rhel-ssh` containers as ansible nodes
+
 ## SSH
 
 ### Connecting
 
-- `ssh ip-address` to open ssh connection to the remote machine
+- `ssh machine-ip-address` to open ssh connection to the remote machine
 - SSH assumes by default that the username on the server is same as your workstation
 - If not add username@ip-address
 
@@ -21,10 +23,17 @@
 ```bash
 docker pull teja463/ubuntu-ssh
 docker run -it --name node1 teja463/ubuntu-ssh
+
+docker pull teja463/rhel-ssh
+docker run -it --name node2 teja463/rhel-ssh
 ```
 
+> If you don't have ansible in local machine, you can use the ubuntu image as the master node  
+> Install the ansible in the master node using `apt install ansible -y`
+
 - type `ip a` to get the ipaddress of the docker nodes
-- The source code for the image `teja463/ubuntu-ssh` is available at [Dockerfile](./Dockerfile)
+- The source code for the image `teja463/ubuntu-ssh` is available at [Ubuntu Dockerfile](./Ubuntu.Dockerfile)
+- The source code for the image `teja463/rhel-ssh` is available at [RHEL Dockerfile](./RHEL.Dockerfile)
 
 ### Ansible commands
 
@@ -33,4 +42,22 @@ docker run -it --name node1 teja463/ubuntu-ssh
 - `ansible.cfg` You can configure the defaults in this file and use the command `ansible all -m ping` and skip the config keys which is there int he `.cfg` file
 - `ansible all --list-hosts` to view list of hosts
 - `ansible all -m gather_facts` To get all info about the remote nodes
-- `ansible all -m ping --limit 172.17.0.2` to limit the execution to one ip 
+- `ansible all -m ping --limit 172.17.0.2` to limit the execution to one ip
+
+### Running elevated ad-hoc commands
+
+- `ansible all -m apt -a update_cache=true --become --ask-become-pass` Tell ansible to use sudo (become)
+- `ansible all -m apt -a name=vim-nox --become --ask-become-pass` Install a package via the apt module
+- `ansible all -m apt -a "name=snapd state=latest" --become --ask-become-pass` Install a package via the apt module, and also make sure it’s the latest version available
+- `ansible all -m apt -a upgrade=dist --become --ask-become-passxx` Upgrade all the package updates that are available
+
+### Ansible Playbooks
+
+- Created first playbook `install-apache2-playbook.yml` to install the apache2
+- To install run `ansible-playbook --ask-become-pass apache2-playbook.yml`
+
+#### Conditional in playbooks
+
+- You execute `ansible all -m gather_facts | grep ansible_distribution` command and read all properties of the gather facts
+- Here we are using the **when** condition and the ansible_distribution property to target ubuntu and rhel nodes and installing specific packages in them
+

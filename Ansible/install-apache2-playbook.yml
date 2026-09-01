@@ -1,0 +1,38 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+    - name: Update repository index on Ubuntu
+      apt:
+        update_cache: true
+      when: ansible_distribution == "Ubuntu"
+
+    - name: Install Apache2 on Ubuntu
+      apt:
+        name: apache2
+        state: latest
+      when: ansible_distribution == "Ubuntu"
+    
+    - name: Install PHP support for apache2 on Ubuntu
+      apt:
+        name: libapache2-mod-php
+        state: latest
+      when: ansible_distribution == "Ubuntu"
+
+    - name: Update repository index for RHEL
+      dnf:
+        update_cache: true
+      when: ansible_distribution == "RedHat"
+
+    - name: Install httpd on RHEL
+      dnf:
+        name: httpd
+        state: latest
+      when: ansible_distribution == "RedHat"
+    
+    - name: Install PHP support for httpd on RHEL
+      dnf:
+        name: php
+        state: latest
+      when: ansible_distribution == "RedHat"

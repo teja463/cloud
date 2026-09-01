@@ -1,0 +1,28 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+    - name: Remove Apache2 on Ubuntu
+      apt:
+        name: apache2
+        state: absent
+      when: ansible_distribution == "Ubuntu"
+    
+    - name: Remove PHP support for apache2 on Ubuntu
+      apt:
+        name: libapache2-mod-php
+        state: absent
+      when: ansible_distribution == "Ubuntu"
+
+    - name: Remove httpd on RHEL
+      dnf:
+        name: apache2
+        state: absent
+      when: ansible_distribution == "RedHat"
+    
+    - name: Remove PHP support for apache2 on RHEL
+      dnf:
+        name: php
+        state: absent
+      when: ansible_distribution == "RedHat"
