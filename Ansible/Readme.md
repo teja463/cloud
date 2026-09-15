@@ -49,7 +49,7 @@ docker run -it --name node2 teja463/rhel-ssh
 - `ansible all -m apt -a update_cache=true --become --ask-become-pass` Tell ansible to use sudo (become)
 - `ansible all -m apt -a name=vim-nox --become --ask-become-pass` Install a package via the apt module
 - `ansible all -m apt -a "name=snapd state=latest" --become --ask-become-pass` Install a package via the apt module, and also make sure it’s the latest version available
-- `ansible all -m apt -a upgrade=dist --become --ask-become-passxx` Upgrade all the package updates that are available
+- `ansible all -m apt -a upgrade=dist --become --ask-become-pass` Upgrade all the package updates that are available
 
 ### Ansible Playbooks
 
@@ -61,3 +61,7 @@ docker run -it --name node2 teja463/rhel-ssh
 - You execute `ansible all -m gather_facts | grep ansible_distribution` command and read all properties of the gather facts
 - Here we are using the **when** condition and the ansible_distribution property to target ubuntu and rhel nodes and installing specific packages in them
 
+#### Tags
+
+- `ansible-playbook --list-tags site.yml` to list tags
+- `ansible-playbook --tags ubuntu --ask-become-pass site.yml` to run all plays tagged with ubuntu

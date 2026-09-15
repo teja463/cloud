@@ -1,0 +1,21 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+    - name: Install Apache2 on Ubuntu
+      apt:
+        name:
+          - apache2
+          - libapache2-mod-php
+        state: latest
+        update_cache: true
+      when: ansible_distribution == "Ubuntu"
+
+    - name: Install Apache2 for RHEL
+      dnf:
+        name:
+          - httpd
+          - php
+        update_cache: true
+      when: ansible_distribution == "RedHat"
