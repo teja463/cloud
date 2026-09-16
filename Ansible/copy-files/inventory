@@ -1,0 +1,5 @@
+[web_servers]
+172.17.0.7
+
+[work_station]
+172.17.0.9

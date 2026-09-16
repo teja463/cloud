@@ -63,5 +63,5 @@ docker run -it --name node2 teja463/rhel-ssh
 
 #### Tags
 
-- `ansible-playbook --list-tags site.yml` to list tags
-- `ansible-playbook --tags ubuntu --ask-become-pass site.yml` to run all plays tagged with ubuntu
+- `ansible-playbook --list-tags groups-and-tags.yml` to list tags
+- `ansible-playbook --tags ubuntu --ask-become-pass groups-and-tags.yml` to run all plays tagged with ubuntu

@@ -1,0 +1,48 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+    - name: Update Ubuntu
+      tags: always
+      apt:
+        update_cache: true
+      when: ansible_distribution == "Ubuntu"
+
+- hosts: web_servers
+  become: true
+  tasks:
+    - name: Install Apache2 on Ubuntu
+      tags: apache2
+      apt:
+        name:
+          - apache2
+          - libapache2-mod-php
+        state: latest
+      when: ansible_distribution == "Ubuntu"
+    - name: Copy file
+      tags: apache2
+      copy:
+        src: myindex.html
+        dest: /var/www/html/index.html
+        owner: root
+        group: root
+        mode: 0644
+        
+- hosts: work_station
+  become: true
+  tasks:
+    - name: Install Unzip
+      tags: unzip
+      package:
+        name: unzip
+    - name: Install terraform
+      tags: terraform
+      unarchive:
+        src: https://releases.hashicorp.com/terraform/1.16.2/terraform_1.16.2_linux_amd64.zip
+        dest: /usr/local/bin
+        remote_src: yes
+        owner: root
+        group: root
+        mode: 0755
+        validate_certs: no
