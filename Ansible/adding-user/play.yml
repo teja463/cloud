@@ -1,0 +1,30 @@
+---
+
+- hosts: all
+  become: true
+  name: Update Repo Cache
+  tasks:
+    - name: Update Ubuntu Repos
+      apt:
+        update_cache: true
+      changed_when: false
+      when: ansible_distribution == "Ubuntu"
+    
+    - name: Update RedHat Repos
+      dnf:
+        update_cache: true
+      changed_when: false
+      when: ansible_distribution == "RedHat"
+
+- hosts: all
+  become: true
+  name: Setup new User
+  tasks:
+    - name: Add User
+      user:
+        name: simone
+        groups: root
+    - name: Setup SSH Key
+      authorized_key:
+        user: simone
+        key: "{{ lookup('ansible.builtin.file', lookup('ansible.builtin.env', 'HOME') + '/.ssh/id_ed25519.pub') }}"
