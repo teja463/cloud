@@ -1,0 +1,37 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+    - name: Update Ubuntu
+      tags: always
+      apt:
+        update_cache: true
+      when: ansible_distribution == "Ubuntu"
+
+    - name: Update RHEL
+      tags: always
+      dnf:
+        update_cache: true
+      when: ansible_distribution == "RedHat"
+
+- hosts: ubuntu
+  become: true
+  tasks:
+    - name: Install Apache2 on Ubuntu
+      tags: apache2,ubuntu
+      apt:
+        name:
+          - "{{ apache_lib_name }}"
+          - "{{ apache_php_lib_name }}"
+        state: latest
+
+- hosts: rhel
+  become: true
+  tasks:
+    - name: Install Apache2 for RHEL
+      tags: httpd,rhel
+      dnf:
+        name:
+          - "{{ apache_lib_name }}"
+          - "{{ apache_php_lib_name }}"
