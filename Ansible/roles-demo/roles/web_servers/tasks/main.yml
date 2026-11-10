@@ -1,0 +1,15 @@
+- name: Install Apache2 on Ubuntu
+  tags: apache2
+  apt:
+    name:
+      - apache2
+      - libapache2-mod-php
+    state: latest
+- name: Copy file
+  tags: apache2
+  copy:
+    src: myindex.html
+    dest: /var/www/html/index.html
+    owner: root
+    group: root
+    mode: 0644

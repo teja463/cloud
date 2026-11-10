@@ -1,0 +1,25 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+    - name: Update Ubuntu Cache
+      apt:
+        update_cache: true
+      when: ansible_distribution == "Ubuntu"
+    - name: Update RHEL Cache
+      dnf:
+        update_cache: true
+      when: ansible_distribution == "RedHat"
+
+- hosts: web_servers
+  become: true
+  tasks:
+  roles:
+    - web_servers
+
+- hosts: work_station
+  become: true
+  tasks:
+  roles:
+    - work_station
